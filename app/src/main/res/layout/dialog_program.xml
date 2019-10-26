@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textViewKeyMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20sp"
+        android:text="@string/remote_configuration_add_key_message"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textViewRemote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5sp"
+        android:text="@string/remote_configuration_add_key_remote"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/imageViewKeyImage"
+        android:layout_width="match_parent"
+        android:layout_height="@android:dimen/thumbnail_height"
+        android:layout_margin="5sp"
+        android:contentDescription="@string/remote_configuration_add_key_remotekey"
+        tools:srcCompat="@drawable/ic_remote" />
+
+    <TextView
+        android:id="@+id/textViewKey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5sp"
+        android:text="@string/remote_configuration_add_key_remotekey"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+</LinearLayout>

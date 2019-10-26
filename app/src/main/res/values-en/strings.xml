@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">gremote control</string>
+    <string name="cancel">cancel</string>
+    <string name="icon_description">gremote v2.0</string>
+    <string name="no">no</string>
+    <string name="ok">ok</string>
+    <string name="welcome_message">Welcome !!!</string>
+    <string name="wifi_name">gremote</string>
+    <string name="yes">yes</string>
+    <string name="main_activiy_device_found">gremote found</string>
+    <string name="main_activiy_device_not_found">no gremote available</string>
+    <string name="main_activiy_device_search">search for gremote</string>
+    <string name="main_activiy_device_chooser_title">Choose gremote</string>
+    <string name="wifi_scanner_scan_success">scan succeeded &#8230;</string>
+    <string name="wifi_scanner_scan_failure">scan failed, please try again later</string>
+    <string name="wifi_scanner_scan_not_possible">scan was not possible, please try again later</string>
+    <string name="wifi_scanner_enable_wifi_title">activate wifi</string>
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id = "@+id/dlg_priority_titlebar"
+        android:orientation = "horizontal"
+        android:layout_width = "fill_parent"
+        android:layout_height = "wrap_content"
+        android:layout_alignParentTop = "true">
+
+        <ImageView
+            android:src = "@mipmap/ic_icon_wt_foreground"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:layout_margin = "5dip" />
+        <TextView
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "Select Task Priority"
+            android:layout_gravity = "center_vertical" />
+
+      </LinearLayout>
+
+    <ListView
+        android:id = "@+id/dlg_priority_lvw"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:layout_below = "@+id/dlg_priority_titlebar"
+        android:background = "@android:color/background_light">
+    </ListView>
+</LinearLayout>
