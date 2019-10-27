@@ -6,17 +6,23 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -37,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private List<String> foundBSSIDs;
     private WifiScanner wifiScanner;
 
+    private NetworkInfo.DetailedState state = NetworkInfo.DetailedState.DISCONNECTED;
+
     private ImageView logo;
     private ProgressBar progressBar;
     private TextView text;
@@ -55,11 +63,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle(R.string.app_name);
 
-        logo = (ImageView) findViewById(R.id.imageView);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        text = (TextView) findViewById(R.id.textView);
-        fab_scan_wifi = (FloatingActionButton) findViewById(R.id.fab_scan_wifi);
-        fab_choose_keys = (FloatingActionButton) findViewById(R.id.fab_choose_keys);
+        logo = findViewById(R.id.imageView);
+        progressBar = findViewById(R.id.progressBar);
+        text = findViewById(R.id.textView);
+        fab_scan_wifi = findViewById(R.id.fab_scan_wifi);
+        fab_choose_keys = findViewById(R.id.fab_choose_keys);
 
         fab_scan_wifi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +167,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // action with ID action_show_legal_notice was selected
+            case R.id.action_show_legal_notice:
+                showLegalNotice();
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
 //        getWifi();
@@ -187,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
             showTutorial();
         } else {
             text.setText(R.string.main_activiy_device_found);
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             builder
                 .setTitle(R.string.main_activiy_device_chooser_title)
@@ -196,18 +224,33 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.d(TAG, "onClick: changeDevice to: " + foundSSIDs.get(which));
+                        text.setText(getResources().getString(R.string.main_activiy_device_found));
                         if (wifiManager.getConnectionInfo().getBSSID().equals(foundBSSIDs.get(which))) {
                             new DeviceCommunicator.Blink(DeviceCommunicator.Blink.TOGGLE) {
                                 @Override
                                 public void finished(boolean success) {}
                             };
-                            text.setText(getResources().getString(R.string.wifi_connector_connected_to) + " " + wifiManager.getConnectionInfo().getSSID());
+                            if (state.equals(NetworkInfo.DetailedState.CONNECTED)) {
+                                text.setText(getResources().getString(R.string.wifi_connector_connected_to) + " " + wifiManager.getConnectionInfo().getSSID());
+                            }
                         } else {
-                            WifiConnector wifiConnector = new WifiConnector(getApplicationContext()) {
+                            final WifiConnector wifiConnector = new WifiConnector(getApplicationContext()) {
                                 @Override
-                                public void connected(String SSID) {
+                                public void update() {
+                                    state = getState();
+                                    Log.d(TAG, "connect: state: " + state.name());
 
-                                    text.setText(getResources().getString(R.string.wifi_connector_connected_to) + " " + SSID);
+                                    if (isState(NetworkInfo.DetailedState.CONNECTED)) {
+                                        text.setText(getResources().getString(R.string.wifi_connector_connected_to) + " " + getSSID());
+                                    } else if (isState(NetworkInfo.DetailedState.CONNECTING)) {
+                                        Toast.makeText(getApplicationContext(), R.string.wifi_connector_state_connecting, Toast.LENGTH_SHORT).show();
+                                    } else if (isState(NetworkInfo.DetailedState.DISCONNECTED)) {
+                                        Toast.makeText(getApplicationContext(), R.string.wifi_connector_state_disconnected, Toast.LENGTH_SHORT).show();
+                                    } else if (isState(NetworkInfo.DetailedState.DISCONNECTING)) {
+                                        Toast.makeText(getApplicationContext(), R.string.wifi_connector_state_disconnecting, Toast.LENGTH_SHORT).show();
+                                    } else if (isState(NetworkInfo.DetailedState.SUSPENDED)) {
+                                        Toast.makeText(getApplicationContext(), R.string.wifi_connector_state_suspended, Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             };
                             wifiConnector.execute(foundSSIDs.get(which), foundBSSIDs.get(which), WPA_KEY);
@@ -217,7 +260,19 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Log.d(TAG, "onClick: ok");
-                        configDevice();
+                        if (state.equals(NetworkInfo.DetailedState.CONNECTED)) {
+                            configDevice();
+                        } else {
+                            Log.d(TAG, "onClick: cancel");
+                            new DeviceCommunicator.Blink(DeviceCommunicator.Blink.OFF) {
+                                @Override
+                                public void finished(boolean success) {}
+                            };
+                            //reconnectToDefaultNetwork();
+                            fab_choose_keys.show();
+                            fab_scan_wifi.show();
+                            dialog.dismiss();
+                        }
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -252,6 +307,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void showLegalNotice() {
+        Intent legalNoticeActivityIntent = new Intent(this, LegalNoticeActivity.class);
+        startActivity(legalNoticeActivityIntent);
+    }
     private void configDevice() {
         Log.d(TAG, "configDevice: start.");
         new DeviceCommunicator.Blink(DeviceCommunicator.Blink.OFF) {

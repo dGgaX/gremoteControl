@@ -61,14 +61,12 @@
     <string name="remote_configuration_failure" translatable="false">Speichern fehlgeschlagen.</string>
     <string name="remote_configuration_add_key_remotekey" translatable="false">Fernbedienungstaste</string>
     <string name="remote_configuration_add_key_remote" translatable="false">Fernbedienung</string>
+    <string name="legal_notice_activity_title">Impressum</string>
+    <string name="legal_notice_activity_message" translatable="false">Herzlich Willkommen,\nwir sind die coolsten.\n\nLorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer</string>
 
-    <!--
-    "Power","Source",
-    "Taste 1","Taste 2","Taste 3","Taste 4","Taste 5","Taste 6","Taste 7","Taste 8","Taste 9","Taste 0",
-    "TXT","Volume +","Volume -","Program +","Program -","Mute","CH List","Menue","Smart","Guide",
-    "Tools","Info","Hoch","Runter","Links","Rechts","OK","Return","Exit",
-    "Rot","Grün","Gelb","Blau"
-    -->
     <string-array name="remote_configuration_keys">
         <item>Power</item>
         <item>Programm hoch</item>

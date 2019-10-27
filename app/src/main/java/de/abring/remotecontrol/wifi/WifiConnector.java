@@ -20,32 +20,42 @@ public abstract class WifiConnector extends AsyncTask<String, Integer, Boolean> 
 
     private static final String TAG = "WifiConnector";
 
+    private NetworkInfo.DetailedState state;
+
     private WifiManager wifiManager;
     private Context context;
 
     private BroadcastReceiver wifiConnectReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context c, Intent intent) {
-            NetworkInfo networkInfo = intent .getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
-            if (networkInfo.getState().equals(NetworkInfo.State.CONNECTED)) {
+            NetworkInfo networkInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+            state = networkInfo.getDetailedState();
+            if (isState(NetworkInfo.DetailedState.CONNECTED)) {
                 context.unregisterReceiver(wifiConnectReceiver);
-                Log.d(TAG, "connect: connected to " + wifiManager.getConnectionInfo().getSSID());
-                Toast.makeText(context, R.string.wifi_connector_state_connected, Toast.LENGTH_SHORT).show();
-                connected(wifiManager.getConnectionInfo().getSSID());
-            } else if (networkInfo.getState().equals(NetworkInfo.State.CONNECTING)) {
-                Toast.makeText(context, R.string.wifi_connector_state_connecting, Toast.LENGTH_SHORT).show();
-            } else if (networkInfo.getState().equals(NetworkInfo.State.DISCONNECTED)) {
-                Toast.makeText(context, R.string.wifi_connector_state_disconnected, Toast.LENGTH_SHORT).show();
-            } else if (networkInfo.getState().equals(NetworkInfo.State.DISCONNECTING)) {
-                Toast.makeText(context, R.string.wifi_connector_state_disconnecting, Toast.LENGTH_SHORT).show();
-            } else if (networkInfo.getState().equals(NetworkInfo.State.SUSPENDED)) {
-                Toast.makeText(context, R.string.wifi_connector_state_suspended, Toast.LENGTH_SHORT).show();
             }
+            update();
         }
     };
 
+    public boolean isConnectedTo(String BSSID) {
+        return wifiManager.getConnectionInfo().getBSSID().equals(BSSID);
+    }
+
+    public String getSSID() {
+        return wifiManager.getConnectionInfo().getSSID();
+    }
+
+    public NetworkInfo.DetailedState getState() {
+        return state;
+    }
+
+    public boolean isState(NetworkInfo.DetailedState state) {
+        return this.state.equals(state);
+    }
+
     public WifiConnector(Context context) {
         this.context = context;
+        this.state = NetworkInfo.DetailedState.DISCONNECTED;
         wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
     }
 
@@ -120,6 +130,6 @@ public abstract class WifiConnector extends AsyncTask<String, Integer, Boolean> 
         return false;
     }
 
-    public abstract void connected(String SSID);
+    public abstract void update();
 
 }
