@@ -27,19 +27,13 @@ public abstract class WifiConnector extends AsyncTask<String, Integer, Boolean> 
         @Override
         public void onReceive(Context c, Intent intent) {
             NetworkInfo networkInfo = intent .getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+            Log.d(TAG, "connect: " + networkInfo.getDetailedState().name());
             if (networkInfo.getState().equals(NetworkInfo.State.CONNECTED)) {
                 context.unregisterReceiver(wifiConnectReceiver);
                 Log.d(TAG, "connect: connected to " + wifiManager.getConnectionInfo().getSSID());
                 Toast.makeText(context, R.string.wifi_connector_state_connected, Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "connect: execute connected-method!!!");
                 connected(wifiManager.getConnectionInfo().getSSID());
-            } else if (networkInfo.getState().equals(NetworkInfo.State.CONNECTING)) {
-                Toast.makeText(context, R.string.wifi_connector_state_connecting, Toast.LENGTH_SHORT).show();
-            } else if (networkInfo.getState().equals(NetworkInfo.State.DISCONNECTED)) {
-                Toast.makeText(context, R.string.wifi_connector_state_disconnected, Toast.LENGTH_SHORT).show();
-            } else if (networkInfo.getState().equals(NetworkInfo.State.DISCONNECTING)) {
-                Toast.makeText(context, R.string.wifi_connector_state_disconnecting, Toast.LENGTH_SHORT).show();
-            } else if (networkInfo.getState().equals(NetworkInfo.State.SUSPENDED)) {
-                Toast.makeText(context, R.string.wifi_connector_state_suspended, Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -53,6 +47,7 @@ public abstract class WifiConnector extends AsyncTask<String, Integer, Boolean> 
     protected void onPostExecute(Boolean s) {
         super.onPostExecute(s);
         if (s) {
+            Toast.makeText(context, R.string.wifi_connector_state_connecting, Toast.LENGTH_SHORT).show();
             final IntentFilter intentFilter =
                     new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION);
             context.registerReceiver(wifiConnectReceiver, intentFilter);

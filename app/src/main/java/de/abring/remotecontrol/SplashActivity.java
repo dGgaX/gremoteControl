@@ -9,7 +9,7 @@ import android.os.Handler;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private long splashTime = 1000l;
+    private long splashTime = 250L;
     private Handler myHandler;
 
     @Override
