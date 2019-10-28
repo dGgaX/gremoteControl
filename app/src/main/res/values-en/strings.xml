@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">gremote control</string>
-    <string name="cancel">cancel</string>
+    <string name="cancel">Cancel</string>
     <string name="icon_description">gremote v2.0</string>
     <string name="no">no</string>
-    <string name="ok">ok</string>
+    <string name="ok">OK</string>
     <string name="welcome_message">Welcome !!!</string>
     <string name="wifi_name">gremote</string>
     <string name="yes">yes</string>
@@ -16,4 +16,5 @@
     <string name="wifi_scanner_scan_failure">scan failed, please try again later</string>
     <string name="wifi_scanner_scan_not_possible">scan was not possible, please try again later</string>
     <string name="wifi_scanner_enable_wifi_title">activate wifi</string>
+    <string name="legal_notice_activity_title">legal notice</string>
 </resources>
