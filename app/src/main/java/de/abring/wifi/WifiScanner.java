@@ -1,4 +1,4 @@
-package de.abring.remotecontrol.wifi;
+package de.abring.wifi;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;

@@ -3,10 +3,6 @@ package de.abring.remotecontrol.remote;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Build;
-import android.text.Html;
-import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import de.abring.remotecontrol.MainActivity;
 import de.abring.remotecontrol.R;
-import de.abring.remotecontrol.internet.DeviceCommunicator;
+import de.abring.internet.DeviceCommunicator;
 
 public abstract class RemoteConfigurator {
 

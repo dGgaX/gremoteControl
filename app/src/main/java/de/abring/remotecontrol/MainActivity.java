@@ -29,9 +29,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.abring.remotecontrol.internet.DeviceCommunicator;
-import de.abring.remotecontrol.remote.RemoteConfigurator;
-import de.abring.remotecontrol.wifi.*;
+import de.abring.internet.*;
+import de.abring.remotecontrol.remote.*;
+import de.abring.wifi.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -235,6 +235,11 @@ public class MainActivity extends AppCompatActivity {
                             }
                         } else {
                             final WifiConnector wifiConnector = new WifiConnector(getApplicationContext()) {
+                                @Override
+                                public void connected(String SSID) {
+
+                                }
+
                                 @Override
                                 public void update() {
                                     state = getState();

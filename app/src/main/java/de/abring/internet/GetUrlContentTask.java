@@ -1,4 +1,4 @@
-package de.abring.remotecontrol.internet;
+package de.abring.internet;
 
 import android.os.AsyncTask;
 import android.util.Log;
